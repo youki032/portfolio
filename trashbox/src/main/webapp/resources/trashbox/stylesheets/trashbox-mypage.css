@@ -1,0 +1,233 @@
+@CHARSET "UTF-8";
+
+
+/* #trashbox .masthead.segment { */
+/* 	min-height: 700px; */
+/* 	padding: 1em 0em; */
+/* } */
+
+
+/* ========================  mypage  ============================ */
+
+      
+#trashbox #banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  min-height: 850px;
+}
+
+#trashbox .writeicon {
+  background-image: url(../images/writeicon.ico);
+}
+
+
+#trashbox #banner .ui.text.container {
+	position: relative;
+	margin-top: 100px;
+	z-index: 1;
+	
+}
+
+#trashbox #banner .ui.text.container #header {
+	color: #e6e6e6;
+	margin-bottom: 0;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+}
+
+ #trashbox .ui.inverted.fixed.menu {
+	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+ #trashbox .ui.inverted.segment{
+    color: rgba(23, 18, 18, 0.9);
+}
+
+ #trashbox #banner .ui.table tbody td.resizing_column {
+  display: none !important;
+  }
+  
+ #trashbox #banner #mypageImg {
+  background-image: url(../images/Old_Paper_Img.jpg);
+  background-size: cover;
+  }
+
+ #trashbox #banner .ui.divided.items .image  {
+ margin-left: 3em;
+ }
+ 
+ #trashbox #banner .ui.divided.items .content {
+ text-align: left;
+ }
+
+ #trashbox #banner #imgResizeing {
+	width: 150px;
+  height: 200px;
+ }
+ 
+ #trashbox #banner .ui.header {
+ padding-top: 20px;
+ margin: 0;
+ }
+ 
+ #trashbox #banner .extra {
+ text-align: right;
+ }
+ 
+ #trashbox #banner #mypageImg span#attendance_inLine {
+  display: none !important;
+  }
+  
+  #trashbox #progress {
+  margin: 5px;
+  }
+
+
+/* ========================  side bar  ============================ */
+
+#user-info-box {
+	padding-top: 3em;
+	height: 300px;
+	background-image:
+		url(../images/SplitShire-0129-1800x1200-970x500.jpg);
+	background-size: cover;
+	opacity: 0.9;
+	background-position: right;
+	text-align: center;
+	border-style: solid;
+	border-color: #808080;
+	
+}
+
+#user-info-box:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: hsla(0, 0%, 0%, 0.4);
+}
+
+#user-info-box .ui.tiny.circular.image>img {
+	position: relative;
+	z-index: 2;
+	width: 80px;
+	height: 80px;
+	border-style: solid;
+	border-width: 2px;
+}
+
+#user-info-box .ui.center.aligned.container {
+	position: relative;
+	z-index: 2;
+	margin-top: 2em;
+	color: #95ffff;
+	text-shadow: 0 0 10px #f00;
+  -moz-text-shadow: 0 0 10px #f00;
+  -webkit-text-shadow: 0 0 10px #f00;
+  
+}
+
+
+
+
+/* ===================screen size========================= */
+
+@media only screen and (min-width: 1920px) {
+  #trashbox #banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  width: auto;
+  min-height: 910px;
+  height: auto;
+/*   padding-top: 60px; */
+  }
+}
+
+
+
+
+@media only screen and (max-width: 768px) {
+/*   ========== list =============== */
+  #trashbox #banner .ui.table thead {
+   display: none !important;
+  }
+  
+  #trashbox #banner .ui.table tbody td.write_article,
+  #trashbox #banner .ui.table tbody td.remove_article,
+  #trashbox #banner .ui.table tbody td.like_All,
+  #trashbox #banner .ui.table tbody td.write_comment,
+  #trashbox #banner .ui.table tbody td.remove_comment {
+  display: none !important;
+  }
+ 
+  #trashbox #banner .ui.table tbody td.resizing_column {
+  display: block !important;
+  text-align: none;
+  }
+  
+  #trashbox #banner .ui.table tbody td.resizing_column ul {
+  text-align: left;
+  margin: 0;
+  }
+    
+  #trashbox #banner .ui.text.container #header {
+  text-align: left;
+  }
+  
+  
+  #trashbox #banner h2.ui.header .user.icon {
+  margin: 0;
+  text-align: left;
+  }
+  
+  
+  #trashbox #banner .ui.text.container .nic_header {
+  text-decoration: underline;
+  margin-left: 20px;
+  }
+  
+  #trashbox #banner .ui.text.container p#nic_text {
+  margin-left: 20px;
+  }
+  
+  #trashbox #banner .ui.text.container .mypage_nicname {
+  font-size: small;
+  }
+  
+  #trashbox #banner .ui.text.container div.image,
+  #trashbox #banner .ui.text.container div.content {
+  margin: auto;
+  }
+ 
+  #trashbox #banner .ui.text.container {
+  margin-top: 80px;
+  }
+  
+  #trashbox #banner {
+  min-height: 1000px;
+  }
+ 
+}
+
+
+@media only screen and (max-width: 370px) {
+	#trashbox #banner .ui.table {
+	font-size: small;
+	}
+	
+  #trashbox #banner .ui.text.container .nic_header h3 {
+  font-size: inherit;
+  }
+  
+  #trashbox .ui.fixed.menu {
+  overflow-x: auto;
+  }
+  
+  #trashbox #banner #mypageImg span#attendance_inLine {
+  display: block !important;
+  
+  }
+}

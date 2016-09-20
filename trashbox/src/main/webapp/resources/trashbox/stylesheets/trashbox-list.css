@@ -1,0 +1,274 @@
+@CHARSET "UTF-8";
+
+
+.masthead.segment {
+  min-height: auto;
+  padding: 1em 0em;
+}
+
+
+
+.masthead .ui.menu .ui.button {
+  margin-left: 0.5em;
+}
+
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+
+/* ============================  list  ============================= */
+      
+#banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+}
+
+
+
+#banner .ui.text.container {
+  position: relative;
+  margin-top: 50px;
+  max-width: 1200px !important;
+  
+}
+
+#banner .ui.text.container #header {
+  color: #e6e6e6;
+  margin-bottom: 0;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+  
+}
+
+#trashbox #banner span.resizing_mini_title {
+  display: none;   
+  }
+
+
+#trashbox #banner .ui.small.header {
+  display: none;
+}
+
+#trashbox #banner .ui.header {
+  text-align: right;
+}
+
+#trashbox #banner #grid_column {
+  margin-left: 100px;
+}
+
+#trashbox #banner .ui.four.column.grid {
+  margin-bottom: auto;
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+#trashbox #banner .ui.four.column.grid .column {
+  text-align: right;
+}
+
+#trashbox #banner .ui.center.aligned.small.search {
+  padding-left: 14em;
+}
+
+
+#trashbox #banner span.resizing_normal_title {
+  display: inline-block;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+ } 
+ 
+ #trashbox #banner #resizeWriteInput {
+  display: none !important;
+  }
+  
+  #trashbox #banner div#imageWrite {
+   margin: 0;
+   margin-right: 10px;
+  }
+ 
+
+/* ============================  side bar  ============================= */
+
+.ui.inverted.fixed.menu {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ui.inverted.segment{
+    color: rgba(23, 18, 18, 0.9);
+}
+
+
+#user-info-box {
+  padding-top: 3em;
+  height: 300px;
+  background-image:
+    url(../images/SplitShire-0129-1800x1200-970x500.jpg);
+  background-size: cover;
+  opacity: 0.9;
+  background-position: right;
+  text-align: center;
+  border-style: solid;
+  border-color: #808080;
+  
+}
+
+#user-info-box:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.4);
+}
+
+#user-info-box .ui.tiny.circular.image>img {
+  position: relative;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+#user-info-box .ui.center.aligned.container {
+  position: relative;
+  z-index: 2;
+  margin-top: 2em;
+  color: #95ffff;
+  text-shadow: 0 0 10px #f00;
+  -moz-text-shadow: 0 0 10px #f00;
+  -webkit-text-shadow: 0 0 10px #f00;
+  
+}
+
+
+/* ============================  resizing  ============================= */
+
+@media only screen and (min-width: 1920px) {
+  #banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  min-height: 910px;
+  height: auto;
+  
+  }
+  
+  #banner .ui.text.container {
+  position: relative;
+  margin-top: 150px;
+  max-width: 1200px !important;
+  }
+
+  
+}
+
+@media only screen and (max-width: 768px) {
+
+  #trashbox #banner .ui.table thead {
+   display: none !important;
+  }
+  
+  #trashbox #banner .ui.table tbody td.num_row,
+  #trashbox #banner .ui.table tbody td.nic_row,
+  #trashbox #banner .ui.table tbody td.date_row,
+  #trashbox #banner .ui.table tbody td.view_row,
+  #trashbox #banner .ui.table tbody td.like_row {
+  display: none !important;
+  }
+  
+  #trashbox #banner .ui.table tbody tr.table_cell {
+  padding-bottom: 5px;
+  }
+    
+  #trashbox #banner span.resizing_normal_title {
+  display: none !important;   
+  }  
+  
+  #trashbox #banner span.resizing_mini_title {
+  display: block !important;
+  text-align: left;    
+  } 
+  
+  #trashbox #banner span.resizing_mini_title a {
+  max-width: 300px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  } 
+  
+  #trashbox #banner .ui.center.aligned.small.search {
+  padding-left: 0em;
+  }
+    
+  
+  #trashbox #banner .ui.small.header {
+  display: block !important;
+  margin: 0;
+  text-align: left;
+  }
+  
+  #trashbox #banner .ui.header {
+  display: none !important;
+  }
+  
+  #trashbox #banner h2.ui.header .user.icon {
+  margin: 0;
+  text-align: left;
+  }
+  
+  #trashbox #banner #grid_column {
+  margin: 0;
+  }
+  
+ 
+}
+
+
+@media only screen and (max-width: 500px) {
+  #trashbox #banner span.resizing_mini_title a {
+  max-width: 200px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  }
+  
+  
+  #trashbox #banner .ui.small.header {
+  display: block !important;
+  margin: 0;
+  text-align: left;
+  font-size: initial;
+  }
+  
+  #trashbox .ui.fixed.menu {
+  overflow-x: auto;
+  }
+  
+  #trashbox #banner div#imageWrite {
+  display: none !important;  
+  }
+  
+  #trashbox #banner div#resizeWriteInput {
+  display: block !important;
+  }
+  
+  #trashbox #banner #resizeWriteInput input {
+  width: 100%;
+  height: 5em;
+  margin-top: 15px;
+  
+  }
+  
+  
+  
+}
+

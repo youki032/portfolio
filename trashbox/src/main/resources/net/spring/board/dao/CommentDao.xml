@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.spring.board.dao.CommentDao">
+   <resultMap type="Comment"       id="CommentMap">
+      <id     column="comment_no"  property="commentNo"/>
+      <result column="list_no"     property="listNo"/>
+      <result column="user_no"     property="userNo"/>
+      <result column="article_no"  property="articleNo"/>
+      <result column="board_no"    property="boardNo"/>
+      <result column="contents"    property="contents"/>
+      <result column="createdate"  property="createDate"/>
+      <result column="nicname"     property="nicName"/>
+      
+      <result column="user_level"     property="userLevel"/>
+   </resultMap>
+    
+    
+    
+<!-- ==========================  insert(add)  ============================= -->
+    
+    <insert id="insertComment" parameterType="Comment">
+        INSERT INTO comment
+        (list_no, article_no, user_no, board_no, contents, createdate, nicname, user_level)
+        VALUES
+        (#{listNo}, #{articleNo}, #{userNo}, #{boardNo}, #{contents}, now(), #{nicName}, #{userLevel})
+    </insert>
+    
+    
+    
+    
+    
+<!-- ==========================  select(get)  ============================= -->
+    
+    <select id="selectCommentToTalListCnt" parameterType="int" resultType="int">
+        SELECT  count(*)
+        FROM    comment
+        WHERE   article_no = #{articleNo} AND board_no = #{boardNo}
+    </select>
+    
+    
+    <select id="selectComment" parameterType="int" resultMap="CommentMap">
+        SELECT  comment_no, list_no, article_no, board_no, user_no
+        
+        FROM    comment
+        WHERE   article_no = #{articleNo} and board_no = #{boardNo} and comment_no = #{commentNo}
+        
+    </select>
+    
+    
+<!-- ==========================  list(list)   ============================= -->
+    
+    <select id="commentList" parameterType="int" resultMap="CommentMap">
+       SELECT  a.user_no, a.profilepath,
+               b.comment_no, b.list_no, b.article_no, b.board_no,
+               b.user_no, b.contents, b.nicname, b.user_level,
+               if(curdate() > DATE_FORMAT(createdate, '%Y-%m-%d'), DATE_FORMAT(createdate, '%Y-%m-%d'), DATE_FORMAT(createdate, '%H:%i:%s')) as createdate 
+        
+        FROM   user_info a inner join comment b on a.user_no = b.user_no 
+        WHERE  article_no = #{articleNo} AND board_no = #{boardNo}
+        order  by comment_no desc
+        limit  #{cPageNo},10
+    </select>
+    
+    
+    
+    
+    
+<!-- ==========================  update(change)  ========================== -->
+    
+    <update id="updateTitleCommentCnt" parameterType="Comment">
+        UPDATE  article
+        SET     titlecommentcnt = (SELECT count(*) FROM comment WHERE article_no = #{articleNo} AND board_no = #{boardNo})
+        WHERE   article_no = #{articleNo} AND board_no = #{boardNo}
+    </update>
+    
+    
+    
+    
+<!-- ==========================  delete(remove)  ========================== -->
+     
+     <delete id="deleteComment" parameterType="Comment">
+         DELETE FROM comment 
+         WHERE 
+         comment_no = #{commentNo}
+     </delete>
+    
+
+    
+   
+</mapper>

@@ -1,0 +1,70 @@
+
+.ui.sidebar.vertical.small.left.menu a span {
+	margin-left: 20px;
+}
+
+
+#menu_headLine {
+	font-weight: 900;
+  font-size: 14px;
+}
+
+.ui.sidebar.vertical.left.menu .header.item {
+	background-color: whitesmoke;
+}
+
+#level_title p {
+	
+	color: mintcream;
+    font-size: large;
+    font-weight: 600;
+	
+}
+
+/* ============================  left menu color  ============================= */
+
+.ui.sidebar.vertical.small.left.menu a span#notice_text:hover {
+	color:red;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#free_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#humor_text:hover {
+  color: #00ea00;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#create_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#wood_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#elect_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#metal_text:hover {
+  color: orange;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#qna_text:hover {
+  color: #0000d9;
+}
+
+.ui.sidebar.vertical.small.left.menu a span#etc_text:hover {
+  color: #c600c6;
+}
+
+
+
+
+/* ============================  right menu color  ============================= */
+
+
+.ui.sidebar.vertical.right.menu a span#userInfo_text:hover,
+.ui.sidebar.vertical.right.menu a span#login_text:hover {
+  color: #ff0080;
+}
+
+.ui.sidebar.vertical.right.menu a span#logout_text:hover,
+.ui.sidebar.vertical.right.menu a span#signUp_text:hover {
+	color: #8080ff;
+}
+
+
+

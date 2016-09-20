@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+ 
+ <!-- Appender, Layout 설정 -->
+ <Appenders>
+  <Console name="console" target="SYSTEM_OUT">
+    <PatternLayout pattern="%d [%t] %-5level: %msg%n%throwable" />
+<!--     <PatternLayout pattern="%highlight{%d [%t] %-5level: %msg%n%throwable}{FATAL=white, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=blue}" /> -->
+<!--     <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/> -->
+  </Console>
+ </Appenders>
+<!--  "[%level] %d{HH:mm:ss}, [%class{1}] - %msg%n" 기존 색없는 패턴 -->
+
+ <!-- Logger 설정 -->
+ <Loggers>
+ 
+  <logger name="log4jdbc.log4j2" level="info" additivity="false">
+      <MarkerFilter marker="LOG4JDBC_RESULTSETTABLE" onMatch="ACCEPT" onMismatch="DENY"/>
+      <appender-ref ref="console"/>
+   </logger>
+ 
+<!--   <logger name="log4jdbc.log4j2" level="info" additivity="false"> -->
+<!--       <MarkerFilter marker="LOG4JDBC_CONNECTION" onMatch="DENY" onMismatch="NEUTRAL"/> -->
+<!--       <appender-ref ref="console"/> -->
+<!--    </logger> -->
+ 
+<!--   <logger name="log4jdbc.log4j2" level="info" additivity="false"> -->
+<!--       <MarkerFilter marker="LOG4JDBC_RESULTSET" onMatch="ACCEPT" onMismatch="DENY"/> -->
+<!--       <appender-ref ref="console"/> -->
+<!--     </logger> -->
+ 
+<!--   <logger name="log4jdbc.log4j2" level="info" additivity="false"> -->
+<!--       <MarkerFilter marker="LOG4JDBC_NON_STATEMENT" onMatch="DENY" onMismatch="NEUTRAL"/> -->
+<!--       <appender-ref ref="console"/> -->
+<!--    </logger> -->
+
+<!--   <Logger name="log4jdbc.log4j2" level="info" additivity="false"> -->
+<!--       <MarkerFilter marker="LOG4JDBC_AUDIT" onMatch="ACCEPT" onMismatch="DENY"/> -->
+<!--       <AppenderRef ref="console"/> -->
+<!--    </Logger> -->
+  
+  <Logger name="org.springframework" level="info" additivity="false">
+   <AppenderRef ref="console" />
+  </Logger>
+  
+  <!-- my package -->
+  <Logger name="net.spring.board" level="debug" additivity="false">
+   <AppenderRef ref="console"/>
+  </Logger>
+  
+  <!-- vertx server -->
+  <logger name="com.nhncorp.mods.socket" level="info">
+    <AppenderRef ref="console"/>
+  </logger>
+  
+  <Root level="ERROR">
+   <AppenderRef ref="console"/>
+  </Root>
+  
+ </Loggers>
+ 
+</Configuration>

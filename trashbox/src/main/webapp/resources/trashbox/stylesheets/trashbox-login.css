@@ -1,0 +1,236 @@
+@CHARSET "UTF-8";
+
+
+/* ===================== menubar setting ===================== */
+
+.ui.sidebar.vertical.small.left.menu a span {
+  margin-left: 20px;
+}
+
+
+#menu_headLine {
+  font-weight: 900;
+  font-size: 14px;
+}
+
+
+.ui.sidebar.vertical.left.menu .header.item {
+  background-color: whitesmoke;
+}
+
+
+
+/* ============================  left menu color  ============================= */
+
+.ui.sidebar.vertical.small.left.menu a span#notice_text:hover {
+  color:red;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#free_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#humor_text:hover {
+  color: #00ea00;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#create_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#wood_text:hover,
+.ui.sidebar.vertical.small.left.menu a span#elect_text:hover {
+  color: orange;
+}
+
+
+.ui.sidebar.vertical.small.left.menu a span#qna_text:hover {
+  color: #0000d9;
+}
+
+.ui.sidebar.vertical.small.left.menu a span#etc_text:hover {
+  color: #c600c6;
+}
+
+
+
+
+/* ============================  right menu color  ============================= */
+
+
+.ui.sidebar.vertical.right.menu a span#userInfo_text:hover,
+.ui.sidebar.vertical.right.menu a span#login_text:hover {
+  color: #ff0080;
+}
+
+.ui.sidebar.vertical.right.menu a span#logout_text:hover,
+.ui.sidebar.vertical.right.menu a span#signUp_text:hover {
+  color: #8080ff;
+}
+
+
+
+
+
+
+
+
+/* ===================== login ===================== */
+
+#trashbox .ui.middle.grid{
+	background-image: url(../images/black_Img.jpg);
+	background-size: cover;
+	width: auto;
+/*   min-height: 800px; */
+/* 	height: auto; */
+height: 800px;
+}
+
+
+#trashbox .ui.stacked.segment {
+	text-align: left;
+}
+
+
+#trashbox .ui.middle.grid #login_header {
+  
+  color: #e6e6e6;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+  
+}
+
+
+#trashbox .ui.middle.grid #loginBtn {
+  text-shadow: 0 0 8px darkslategray;
+  -moz-text-shadow: 0 0 8px darkslategray;
+  -webkit-text-shadow: 0 0 8px darkslategray;
+  opacity: 0.8;
+  background-color: lavender;
+  border-radius: 10em;
+}
+
+#trashbox .ui.middle.grid a#msgText {
+  text-shadow: 0 0 8px darkslategray;
+  -moz-text-shadow: 0 0 8px darkslategray;
+  -webkit-text-shadow: 0 0 8px darkslategray;
+  
+}
+
+#trashbox .column {
+	max-width: 500px;
+}
+
+
+
+/* ==================== menubar ===================== */
+
+#trashbox .ui.inverted.fixed.menu {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#trashbox .ui.inverted.segment{
+    color: rgba(23, 18, 18, 0.9);
+}
+
+
+#trashbox #user-info-box {
+  padding-top: 3em;
+  height: 300px;
+  background-image:
+    url(../images/SplitShire-0129-1800x1200-970x500.jpg);
+  background-size: cover;
+  opacity: 0.9;
+  background-position: right;
+  text-align: center;
+  border-style: solid;
+  border-color: #808080;
+  
+}
+
+#trashbox #user-info-box:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.4);
+}
+
+#trashbox #user-info-box .ui.tiny.circular.image>img {
+  position: relative;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+#trashbox #user-info-box .ui.center.aligned.container {
+  position: relative;
+  z-index: 2;
+  margin-top: 2em;
+  color: #95ffff;
+  text-shadow: 0 0 10px #f00;
+  -moz-text-shadow: 0 0 10px #f00;
+  -webkit-text-shadow: 0 0 10px #f00;
+}
+
+
+
+/* ===================screen size========================= */
+
+@media only screen and (min-width: 1920px) {
+  #trashbox .ui.middle.grid{
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  width: auto;
+  min-height: 938px;
+  height: auto;
+  }
+  }
+
+
+@media only screen and (max-width: 768px) {
+	#trashbox .ui.middle.grid .column {
+	padding-left: 40px;
+	padding-right: 40px;
+	}
+	
+	#trashbox .ui.middle.grid #login_header {
+	text-align: left;
+	}
+	
+}
+
+
+@media only screen and (max-width: 374px) {
+	#trashbox .ui.middle.grid {
+  width: auto;
+  max-height: 650px;
+  }
+	
+  #trashbox .ui.middle.grid #login_header {
+  text-align: left;
+  }
+  #trashbox .ui.message {
+  text-align: left;
+  }
+  #trashbox .ui.message #loginBtn {
+  margin: 3px;
+  border-radius: 10em;
+  }
+}
+
+
+@media only screen and (max-width: 350px) {
+  
+  #trashbox #banner .ui.small.header {
+  display: block !important;
+  margin: 0;
+  text-align: left;
+  font-size: initial;
+  }
+  
+  #trashbox .ui.fixed.menu {
+  overflow-x: auto;
+  }
+}

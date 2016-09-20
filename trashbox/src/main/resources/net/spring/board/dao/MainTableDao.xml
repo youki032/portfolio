@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="net.spring.board.dao.MainTableDao">
+  <resultMap type="MainTable" id="MainTableMap">
+    <id     column="list_no"       property="listNo"/>
+    <result column="article_no"    property="articleNo"/>
+    <result column="board_no"      property="boardNo"/>
+    <result column="likecnt"       property="likeCnt"/>
+    <result column="views"         property="views"/>
+    <result column="title"         property="title"/>
+    <result column="createdate"    property="createDate"/>
+    <result column="content"       property="content"/>
+  </resultMap>  
+    
+    
+    
+    <select id="noticeList" resultMap="MainTableMap">
+        SELECT  list_no, article_no, board_no, views, likecnt, title, createdate
+        FROM    article
+        WHERE   board_no = 1
+        order   by list_no desc
+        limit   0,10;
+    </select>
+    
+    
+    <select id="newestList" resultMap="MainTableMap">
+        SELECT list_no, article_no, board_no, views, likecnt, title, createdate
+        FROM   article
+        where  board_no BETWEEN 2 and 7 and createdate >= date_add(now(), interval -7 day)
+        order  by list_no desc
+        limit  0,10;
+    </select>
+    
+    
+    <select id="weekList" resultMap="MainTableMap">
+        select  list_no, article_no, board_no, views, likecnt, title, createdate
+        from    article
+        where   board_no BETWEEN 2 and 7 and createdate >= date_add(now(), interval -2 week) and likecnt >= 10
+        order   by likecnt desc
+        limit   0,10;
+    </select>
+    
+    
+    <select id="monthList" resultMap="MainTableMap">
+        SELECT  list_no, article_no, board_no, views, likecnt, title, createdate
+        FROM    article
+        WHERE   board_no BETWEEN 2 and 7 and createdate >= date_add(now(), interval -2 month) and likecnt >= 20
+        order   by likecnt desc
+        limit   0,10;
+    </select>
+    
+    
+    <select id="imageList" parameterType="int" resultMap="MainTableMap">
+        SELECT list_no, article_no, board_no, content
+        FROM   article
+        WHERE  board_no BETWEEN 2 and 7 and content like CONCAT('%','&lt;img alt','%')
+        order  by list_no desc
+        limit  #{imgPage}, 4;
+    </select>
+  
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+
+
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/mvc
+     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/security
+     http://www.springframework.org/schema/security/spring-security.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd
+     ">
+   
+   <!-- controller만 빼고 전체 패키지에 있는 어노테이션 scan -->
+   <context:component-scan base-package="net.spring.board">
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+   </context:component-scan>
+
+  
+  <!-- 트랜잭션 어노테이션 등록 -->
+  <tx:annotation-driven transaction-manager="txManager" />
+  
+
+	<!-- 필터를 꼽을 메소드를 지정한다. -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="list" read-only="true" />
+			<tx:method name="get*" propagation="NOT_SUPPORTED" />
+			<tx:method name="*"    propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<!-- AOP 필터 꼽기 proxy-target-class는 interface가 정의되지 않는 메소드에 대해서 transaction을 사용하는
+	        경우를 위한 것이다. 기본값은 false로 타겟은 interface여야 하지만 serviceImpl.java 류의 파일 안의 모든 메소드가
+	     interface로 정의되어 있지 않기에 true값을 준다. -->
+	<aop:config proxy-target-class="true"> 
+		
+		<!-- pointcut은 원하는 동작을 적용하고자 하는 클래스와 메소드의 이름을 기술하는 부분이다. 
+		     expression은 AspectJ의 pointcut 언어를 사용한다.
+		         자신의 클래스 패키지의 service 폴더까지 지정하고 그 이후에 ..*Service.*(..)) 와 같이 
+		         그아래 모든 Service가 들어가는 파일명과 모든 메소드들에 대해서 pointcut을 지정했다. -->
+		<aop:pointcut id="serviceOperation" expression="execution(* net.spring.board.service..*ServiceImpl.*(..))"/>
+		
+		<!-- advisor는 우리말로 하면 충고인데.. pointcut에 대해 무슨일을 할지 정하는 것이다.  -->
+		<aop:advisor  pointcut-ref="serviceOperation" advice-ref="txAdvice" />
+		
+		
+	</aop:config>
+
+
+
+  
+  
+	<!-- mybatis 관련 객체 준비 -->
+	<!-- dbcp 1.4버전-->
+<!--   <beans:bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!--     <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/> -->
+<!--     <beans:property name="url"             value="jdbc:mysql://localhost:3306/trashbox"/> -->
+<!--     <beans:property name="username"        value="root"/> -->
+<!--     <beans:property name="password"        value="1234"/> -->
+<!--   </beans:bean> -->
+
+  <!-- dbcp 2.1버전-->
+  <beans:bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <beans:property name="url"             value="jdbc:mysql://localhost:3306/trashbox"/>
+    <beans:property name="username"        value="root"/>
+    <beans:property name="password"        value="1234"/>
+    <beans:property name="maxTotal"        value="100"/>
+    <beans:property name="maxIdle"         value="30"/>
+    <beans:property name="maxWaitMillis"   value="10000"/>
+  </beans:bean>
+
+   
+   <!-- vo와 sql 연결 xml의 mappring 연결 -->
+	 <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <beans:property name="dataSource" ref="dataSource" />
+      <beans:property name="typeAliasesPackage" value="net.spring.board.vo" />
+      <beans:property name="mapperLocations"    value="classpath*:net/spring/board/dao/*Dao.xml" />
+   </beans:bean>
+
+
+   <!-- txManager bean 등록 --> 
+   <beans:bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <beans:property name="dataSource" ref="dataSource"/>
+   </beans:bean>
+
+  
+  <!-- sqlSessionFactory에 log를 연결 -->
+  <beans:bean id="dataSource" class="net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy">
+      <beans:constructor-arg ref="dataSourceSpied"/>
+  </beans:bean>
+  
+  
+  
+	<!-- DAO 자동 생성기 => DAO 인터페이스를 찾아서 그 일을 할 객체를 준비한다. -->
+	<beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<beans:property name="basePackage" value="net.spring.board.dao" />
+	</beans:bean>
+
+
+
+  <!-- email전송 -->
+  <beans:bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+     <beans:property name="host" value="smtp.naver.com" />
+     <beans:property name="port" value="587" />
+     <beans:property name="username" value="youki032@naver.com" />
+     <beans:property name="password" value="wjsqudgns9182" />
+     <beans:property name="defaultEncoding" value="UTF-8" />
+     <beans:property name="javaMailProperties">
+     <beans:props>
+         <beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+         <beans:prop key="mail.smtps.ssl.checkserveridentity">true</beans:prop>
+         <beans:prop key="mail.smtps.ssl.trust">*</beans:prop>
+     </beans:props>
+     </beans:property>
+  </beans:bean>
+ 
+ 
+  
+</beans:beans>

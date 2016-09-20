@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.spring.board.dao.ArticleDao">
+  <resultMap type="Article" id="ArticleMap">
+    <id     column="list_no"            property="listNo"/>
+    <result column="user_no"            property="userNo"/>
+    <result column="board_no"           property="boardNo"/>
+    <result column="article_no"         property="articleNo"/>
+    <result column="title"              property="title"/>
+    <result column="content"            property="content"/>
+    <result column="createdate"         property="createDate"/>
+    <result column="views"              property="views"/>
+    <result column="nicname"            property="nicName"/>
+    <result column="email"              property="email"/>
+    <result column="likecnt"            property="likeCnt"/>
+    <result column="original_filepath"  property="originalFilePath"/>
+    <result column="rename_filepath"    property="renameFilePath"/>
+    <result column="user_level"         property="userLevel"/>
+  </resultMap>
+  
+<!--     <result column="filepath"           property="filePath"/> -->
+  
+  
+  
+<!-- ==========================  insert(add)  ============================= -->
+    <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyColumn="list_no" keyProperty="listNo">
+      
+      <selectKey resultType="int" keyProperty="articleNo" order="BEFORE">
+         SELECT IFNULL(MAX(article_no), 0)+1 FROM article WHERE board_no = #{boardNo}
+         <!-- insert전에 article_no컬럼의 최대값을 가져와서 1을 더하고 inser로 넘어간다.
+              IFNULL로 article_no테이블에 값이 없으면 0값을 1을 더하여 insert로 넘겨준다. -->
+      </selectKey>
+      
+         INSERT INTO article
+         (board_no, user_no, title, content, createdate, 
+          article_no, nicname, email, original_filepath, rename_filepath, user_level) 
+         
+         VALUES      
+         (#{boardNo}, #{userNo}, #{title}, #{content}, now(), 
+          #{articleNo}, #{nicName}, #{email}, #{originalFilePath}, #{renameFilePath}, #{userLevel})
+    
+    </insert>
+
+    
+<!--     <insert id="insertFileUpload" parameterType="FileBean"> -->
+<!--         INSERT INTO files -->
+<!--         (list_no, article_no, board_no, ) -->
+    
+<!--     </insert> -->
+
+
+<!-- ==========================  select(get)  ============================= -->
+  
+  <select id="selectArticleListToTalCnt" parameterType="hashmap" resultType="int">
+      SELECT  count(*)
+      FROM    article
+      WHERE   
+      <choose>
+          <when test="keyFiled == 'title_content'">
+            board_no = #{boardNo} AND title like CONCAT('%',#{keyWord},'%') OR content like CONCAT('%',#{keyWord},'%')
+          </when>
+      
+          <when test="keyFiled == 'title'">
+            board_no = #{boardNo} AND title like CONCAT('%',#{keyWord},'%')
+          </when>
+      
+          <when test="keyFiled == 'nicname'">
+            board_no = #{boardNo} AND nicname like CONCAT('%',#{keyWord},'%')
+          </when>
+      
+          <when test="keyFiled == ''">
+            board_no = #{boardNo}
+          </when>
+      
+        </choose>
+    </select>
+
+
+    <select id="selectArticle" parameterType="int" resultMap="ArticleMap">
+        SELECT   list_no, article_no, board_no, user_no, title, content,
+                 nicname, views, email, titlecommentcnt, 
+                 likecnt, original_filepath, rename_filepath, user_level,
+                 if(curdate() > DATE_FORMAT(createdate, '%Y-%m-%d') , DATE_FORMAT(createdate, '%Y-%m-%d'), DATE_FORMAT(createdate, '%H:%i:%s')) as createdate  
+               
+        FROM     article
+        WHERE    article_no = #{articleNo} and board_no = #{boardNo}
+    </select>
+
+
+    <select id="selectHistoryUserNo" parameterType="hashmap" resultType="int">
+        SELECT  user_no
+        FROM    article
+        WHERE   nicname = #{nicName} and list_no = #{listNo}
+    
+    </select>
+    
+    
+    <select id="selectHistoryUser" parameterType="int" resultType="User">
+        SELECT  email, nicname
+        FROM    user
+        WHERE   user_no = #{userNo}
+    
+    </select>
+    
+    <select id="selectHistoryUserInfo" parameterType="int" resultType="UserInfo">
+        SELECT  signdate, userclass, selfintroduction, birthdate, profilepath
+        FROM    user_info
+        WHERE   user_no = #{userNo}
+    </select>
+    
+   
+
+
+<!-- ==========================  list(list)   ============================= -->
+    
+    <select id="articleList" parameterType="hashmap" resultMap="ArticleMap">
+        SELECT  article_no, title, views, list_no, nicname, titlecommentcnt, likecnt, original_filepath, user_level, 
+                if(curdate() > DATE_FORMAT(createdate, '%Y-%m-%d') , DATE_FORMAT(createdate, '%Y-%m-%d'), DATE_FORMAT(createdate, '%H:%i:%s')) as createdate
+             
+        FROM    article
+        WHERE   
+     
+        <choose>
+          <when test="keyFiled == 'title_content'">
+            board_no = #{boardNo} AND title like CONCAT('%',#{keyWord},'%') OR content like CONCAT('%',#{keyWord},'%')
+          </when>
+      
+          <when test="keyFiled == 'title'">
+            board_no = #{boardNo} AND title like CONCAT('%',#{keyWord},'%')
+          </when>
+      
+          <when test="keyFiled == 'nicname'">
+            board_no = #{boardNo} AND nicname like CONCAT('%',#{keyWord},'%')
+          </when>
+        
+          <when test="keyFiled == ''">
+            board_no = #{boardNo}
+          </when>
+        </choose>
+        
+        order   by article_no desc
+        limit   #{pageNo}, 10
+     
+    </select>
+
+
+
+
+
+
+<!-- ==========================  update(change)  ========================== -->
+    <update id="updateArticle" parameterType="Article">
+        UPDATE article 
+           
+           SET
+            <if test="renameFilePath != ''">
+               rename_filepath = #{renameFilePath},
+            </if>
+            <if test="originalFilePath != ''">
+               original_filepath = #{originalFilePath},
+            </if>
+
+            title=#{title}, 
+            content=#{content} 
+        WHERE article_no = #{articleNo} AND board_no = #{boardNo} AND user_no = #{userNo}
+    </update>
+
+
+
+    <update id="updateArticleView" parameterType="Article">
+        UPDATE  article
+        SET     views = views+1 
+        WHERE   article_no = #{articleNo} AND board_no = #{boardNo}; 
+    
+    </update>
+    
+    
+<!--     <update id="updateFileUpload" parameterType="FileBean"> -->
+<!--         UPDATE  files -->
+           
+<!--            SET -->
+<!--             <if test="filePath != null"> -->
+<!--                 filepath = #{filePath}, -->
+<!--             </if> -->
+          
+<!--         WHERE   article_no = #{articleNo} AND board_no = #{boardNo};  -->
+<!--     </update> -->
+    
+    
+    
+    
+<!-- ==========================  delete(remove)  ========================== -->
+    
+    <update id="deleteAttachFile" parameterType="String">
+        UPDATE  article 
+        
+        SET     original_filepath = "", 
+                rename_filepath  = ""
+        
+        WHERE   rename_filepath = #{renameFilePath}
+        
+    </update>
+  
+  
+  
+  
+    <delete id="deleteArticle" parameterType="Article">
+        DELETE FROM article 
+        WHERE 
+        article_no = #{articleNo} AND board_no = #{boardNo}
+    </delete>
+  
+
+
+  
+  
+  
+<!--     <select id="selectCommentsCount" parameterType="Article" resultType="int"> -->
+<!--       SELECT  count(*) -->
+<!--       FROM    comments -->
+<!--       WHERE   board_no = #{boardNo} AND article_no = #{articleNo} -->
+<!--     </select> -->
+
+    
+<!--     <update id="likeArticleCount" parameterType="int"> -->
+<!--       UPDATE   article -->
+<!--       SET      likecnt = likecnt+1 -->
+<!--       WHERE    article_no = #{articleNo} AND board_no = #{boardNo} AND user_no = #{userNo} -->
+<!--     </update> -->
+    
+    
+  
+    
+
+</mapper>
+
+
+

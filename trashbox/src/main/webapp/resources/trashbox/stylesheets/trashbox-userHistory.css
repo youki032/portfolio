@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+
+/* ==================== userHistory page ===================== */
+
+
+body#trashbox {
+  background-color: floralwhite;
+  height: auto;
+}
+
+#trashbox .header {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+#trashbox #profileImage {
+	width: 100px;
+	height: auto;
+}
+
+#trashbox ul {
+	padding-left: 30px;
+}
+
+#trashbox ul li {
+	margin: 7px;
+}
+
+#trashbox #historyBtn {
+	text-align: center;
+	margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#trashbox #historyBtn button {
+	width: 100px;
+}
+
+#trashbox #progress {
+	margin: 5px;
+}
+
+

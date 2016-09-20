@@ -1,0 +1,165 @@
+@CHARSET "UTF-8";
+
+/* ==================== welcome page ===================== */
+
+#trashbox #banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  width: auto;
+  min-height: 800px;
+  height: auto;
+  
+}
+
+#trashbox #banner .ui.text.container {
+  padding-top: 50px;
+}
+
+#trashbox #banner .ui.segment {
+	width: 80%;
+  margin: auto;
+  margin-top: 35px;
+  padding: 50px;
+}
+
+#trashbox #banner .ui.middle.aligned.center.aligned.grid {
+	margin-top: 60px;
+}
+
+#trashbox #banner .ui.segment {
+  margin-top: 30px;
+
+}
+
+#trashbox #banner .ui.text.container #normal_header {
+  color: #e6e6e6;
+  margin-bottom: 0;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+ 
+}
+
+#trashbox #banner .ui.text.container #mini_header {
+  color: #e6e6e6;
+  margin-bottom: 0;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+  
+}
+
+
+#trashbox #banner .ui.text.container #mini_header {
+  display: none !important;
+  }
+
+
+
+
+/* ==================== menubar ===================== */
+
+#trashbox .ui.inverted.fixed.menu {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#trashbox .ui.inverted.segment{
+    color: rgba(23, 18, 18, 0.9);
+}
+
+
+#trashbox #user-info-box {
+  padding-top: 3em;
+  height: 300px;
+  background-image:
+    url(../images/SplitShire-0129-1800x1200-970x500.jpg);
+  background-size: cover;
+  opacity: 0.9;
+  background-position: right;
+  text-align: center;
+  border-style: solid;
+  border-color: #808080;
+  
+}
+
+#trashbox #user-info-box:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.4);
+}
+
+#trashbox #user-info-box .ui.tiny.circular.image>img {
+  position: relative;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+#trashbox #user-info-box .ui.center.aligned.container {
+  position: relative;
+  z-index: 2;
+  margin-top: 2em;
+  color: #95ffff;
+  text-shadow: 0 0 10px #f00;
+  -moz-text-shadow: 0 0 10px #f00;
+  -webkit-text-shadow: 0 0 10px #f00;
+}
+
+
+
+
+/* ===================screen size========================= */
+
+@media only screen and (min-width: 1920px) {
+  #trashbox #banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+  width: auto;
+  min-height: 896px;
+  height: auto;
+  }
+  
+  #trashbox #banner .ui.text.container {
+  padding-top: 90px;
+  }
+  
+  #trashbox #banner .ui.middle.aligned.center.aligned.grid {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  }
+  
+  
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  #trashbox #banner .ui.text.container #mini_header {
+  display: block !important;
+  }
+  
+  #trashbox #banner .ui.text.container #normal_header {
+  display: none !important;
+  }
+}
+
+
+@media only screen and (max-width: 350px) {
+  
+  #trashbox #banner .ui.small.header {
+  display: block !important;
+  margin: 0;
+  text-align: left;
+  font-size: initial;
+  }
+  
+  #trashbox .ui.fixed.menu {
+  overflow-x: auto;
+  }
+}

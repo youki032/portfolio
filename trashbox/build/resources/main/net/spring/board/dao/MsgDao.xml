@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.spring.board.dao.MsgDao">
+  <resultMap  type="Msg"                  id="MsgMap">
+      <id     column="msg_no"             property="msgNo"/>
+      <result column="to_user_no"         property="toUserNo"/>
+      <result column="to_user_email"      property="toUserEmail"/>
+      <result column="to_user_nicname"    property="toUserNicName"/>
+      <result column="from_user_no"       property="fromUserNo"/>
+      <result column="from_user_email"    property="fromUserEmail"/>
+      <result column="from_user_nicname"  property="fromUserNicName"/>
+      <result column="msg_content"        property="msgContent"/>
+      <result column="createdate"         property="createDate"/>
+      <result column="msg_flag"           property="msgFlag"/>
+  </resultMap>
+
+
+
+
+  <!--*********************************************************************
+   ****************************** To List *********************************
+   ************************************************************************-->
+    
+    <insert id="insertToMsg" parameterType="Msg">
+        INSERT INTO to_msg
+          (to_user_no, to_user_email, to_user_nicname,
+           from_user_no, from_user_email, from_user_nicname,
+           msg_content, createdate, msg_flag)
+          
+        VALUES
+          (#{toUserNo}, #{toUserEmail}, #{toUserNicName},
+           #{fromUserNo}, #{fromUserEmail}, #{fromUserNicName},
+           #{msgContent}, now(), #{msgFlag})
+    </insert>
+    
+    
+    
+    <select id="toMsgList" parameterType="hashmap" resultMap="MsgMap">
+         SELECT   msg_no, to_user_no, to_user_email, to_user_nicname,
+                  from_user_no, from_user_email, from_user_nicname,
+                  msg_content, createdate, msg_flag 
+         
+         FROM     to_msg
+         
+         WHERE    to_user_no = #{toUserNo} 
+         order    by msg_no desc
+         limit    #{pageNo}, 10
+    </select>
+    
+    
+    
+    <select id="selectToMsgListToTalCnt" parameterType="int" resultType="int">
+        SELECT  count(*)
+        FROM    to_msg
+        WHERE   to_user_no = #{toUserNo}
+    </select>
+
+  
+    
+    <delete id="deleteToMsg" parameterType="hashmap">
+        DELETE FROM to_msg 
+        WHERE 
+        msg_no = #{msgNo}
+    </delete>
+    
+    
+    
+    <update id="selectToMsgFlag" parameterType="int">
+        UPDATE  to_msg
+        SET     msg_flag = 0
+        WHERE   msg_no = #{msgNo}
+    </update>
+    
+    
+    
+  <!--*********************************************************************
+   ****************************** From List *********************************
+   ************************************************************************-->
+
+      <insert id="insertFromMsg" parameterType="Msg">
+        INSERT INTO from_msg
+          (to_user_no, to_user_email, to_user_nicname,
+           from_user_no, from_user_email, from_user_nicname,
+           msg_content, createdate, msg_flag)
+          
+        VALUES
+          (#{toUserNo}, #{toUserEmail}, #{toUserNicName},
+           #{fromUserNo}, #{fromUserEmail}, #{fromUserNicName},
+           #{msgContent}, now(), #{msgFlag})
+      </insert>
+      
+      
+      
+      <select id="fromMsgList" parameterType="hashmap" resultMap="MsgMap">
+         SELECT   msg_no, to_user_no, to_user_email, to_user_nicname,
+                  from_user_no, from_user_email, from_user_nicname,
+                  msg_content, createdate, msg_flag 
+         
+         FROM     from_msg
+         
+         WHERE    from_user_no = #{toUserNo} 
+         order    by msg_no desc
+         limit    #{pageNo}, 10
+      </select>
+    
+    
+      
+      <select id="selectFromMsgListToTalCnt" parameterType="int" resultType="int">
+        SELECT  count(*)
+        FROM    from_msg
+        WHERE   to_user_no = #{toUserNo}
+      </select>
+      
+      
+    
+<!--       <insert id="insertRePlayMsg" parameterType="Msg"> -->
+<!--           INSERT INTO from_msg -->
+<!--             (to_user_no, to_user_nicname, -->
+<!--             from_user_no, from_user_nicname, -->
+<!--             msg_content, createdate, msg_flag) -->
+          
+<!--           VALUES -->
+<!--             (#{toUserNo}, #{toUserNicName}, -->
+<!--             #{fromUserNo}, #{fromUserNicName}, -->
+<!--             #{msgContent}, now(), #{msgFlag}) -->
+<!--       </insert>   -->
+   
+   
+      <delete id="deleteFromMsg" parameterType="hashmap">
+            DELETE FROM from_msg 
+            WHERE 
+            msg_no = #{msgNo}
+      </delete>
+   
+  <!--*********************************************************************
+   ****************************** Save List *********************************
+   ************************************************************************-->   
+      
+      <insert id="insertSaveMsg" parameterType="Msg">
+            INSERT INTO save_msg
+              (to_user_no, to_user_email, to_user_nicname,
+              from_user_no, from_user_email, from_user_nicname,
+              msg_content, createdate, msg_flag)
+          
+            VALUES
+              (#{toUserNo}, #{toUserEmail}, #{toUserNicName},
+              #{fromUserNo}, #{fromUserEmail}, #{fromUserNicName},
+              #{msgContent}, #{createDate}, #{msgFlag})
+      </insert>
+       
+       
+       
+      <select id="saveMsgList" parameterType="hashmap" resultMap="MsgMap">
+            SELECT   msg_no, to_user_no, to_user_email, to_user_nicname,
+                     from_user_no, from_user_email, from_user_nicname,
+                     msg_content, createdate, msg_flag 
+         
+            FROM     save_msg
+         
+            WHERE    to_user_no = #{toUserNo} 
+            order    by msg_no desc
+            limit    #{pageNo}, 10
+      </select> 
+       
+       
+       
+      <select id="selectSaveMsgListToTalCnt" parameterType="int" resultType="int">
+            SELECT  count(*)
+            FROM    save_msg
+            WHERE   to_user_no = #{toUserNo}
+      </select>
+       
+       
+       
+       
+      <delete id="deleteSaveMsg" parameterType="hashmap">
+            DELETE FROM save_msg 
+            WHERE 
+            msg_no = #{msgNo}
+      </delete>
+      
+      
+      
+      
+      <select id="selectToMsg" parameterType="hashmap" resultMap="MsgMap">
+            SELECT   msg_no, to_user_no, to_user_email, to_user_nicname,
+                     from_user_no, from_user_email, from_user_nicname,
+                     msg_content, createdate, msg_flag 
+            
+            FROM     to_msg
+            
+            WHERE    msg_no = #{msgNo}
+      </select>
+      
+    
+      
+      <select id="selectFromMsg" parameterType="hashmap" resultMap="MsgMap">
+            SELECT   msg_no, to_user_no, to_user_email, to_user_nicname,
+                     from_user_no, from_user_email, from_user_nicname,
+                     msg_content, createdate, msg_flag 
+            
+            FROM     from_msg
+            
+            WHERE    msg_no = #{msgNo}
+      </select>
+      
+         
+    
+      <update id="selectSaveMsgFlag" parameterType="int">
+          UPDATE  save_msg
+          SET     msg_flag = 0
+          WHERE   msg_no = #{msgNo}
+      </update>
+   
+   
+   
+   
+   
+<!-- =========================== Msg Check==== =========================== -->
+    
+    
+    <select id="selectToUserInfo" parameterType="Msg" resultType="hashmap">
+          SELECT  user_no, email
+          FROM    article
+          WHERE   article_no = #{articleNo} and board_no = #{boardNo};
+    </select>
+      
+      
+    <select id="selectToListMsg" parameterType="int" resultType="int">
+          SELECT  count(*)
+          FROM    to_msg
+          WHERE   to_user_no = #{userNo} AND msg_flag > 0
+    </select>
+    
+    
+    <select id="selectSaveListMsg" parameterType="int" resultType="int">
+          SELECT  count(*)
+          FROM    save_msg
+          WHERE   to_user_no = #{userNo} AND msg_flag > 0
+    </select>
+    
+    
+</mapper>

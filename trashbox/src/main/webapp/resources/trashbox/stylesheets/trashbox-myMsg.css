@@ -1,0 +1,266 @@
+@CHARSET "UTF-8";
+
+
+#trashbox .ui.bottom.attached.tab.segment {
+padding-bottom: auto;
+} 
+
+
+#trashbox #myMsg_header {
+padding-top: 12px;
+}
+
+
+#trashbox table {
+width: 100%;
+height: auto;
+border-style: inset;
+}
+
+#trashbox table #table_Top {
+height: 50px;
+margin: auto;
+}
+
+#trashbox .nicNameBtn {
+background-color: floralwhite;
+border-style: hidden;
+color: black;
+text-shadow: 0 0 10px blue;
+} 
+
+#trashbox #toList .ui.accordion .content,
+#trashbox #fromList .ui.accordion .content,
+#trashbox #saveList .ui.accordion .content {
+margin-left: 30px;
+margin-top: 10px;
+margin-bottom: 20px;
+width: 250px;
+
+}
+
+#trashbox #toList .ui.accordion p.transition.visible,
+#trashbox #fromList .ui.accordion p.transition.visible,
+#trashbox #saveList .ui.accordion p.transition.visible {
+word-break: break-all;
+}
+
+#trashbox #toList #content_row,
+#trashbox #fromList #content_row,
+#trashbox #saveList #content_row {
+width: 300px;
+}
+
+
+#trashbox #toList #checkbox_row,
+#trashbox #fromList #checkbox_row,
+#trashbox #saveList #checkbox_row {
+position: absolute;
+padding: 5px;
+margin-top: 13px;
+}
+
+
+#trashbox #toList #content_row .title,
+#trashbox #fromList #content_row .title,
+#trashbox #saveList #content_row .title {
+padding-left: 15px;
+margin-top: 10px;
+
+}
+
+#trashbox #toList tr #mini_row,
+#trashbox #fromList tr #mini_row,
+#trashbox #saveList tr #mini_row {
+  display: none !important;
+  }
+
+#trashbox #toList .ui.checkbox,
+#trashbox #fromList .ui.checkbox,
+#trashbox #saveList .ui.checkbox {
+width: 17px;
+height: 17px;
+padding: 0;
+margin: 0;
+}  
+  
+#trashbox #toList tr td#from_row,
+#trashbox #toList tr td#date_row,
+#trashbox #fromList tr td#from_row,
+#trashbox #fromList tr td#date_row,
+#trashbox #saveList tr td#from_row,
+#trashbox #saveList tr td#date_row {
+text-align: center;
+}
+
+#trashbox #toList .checkbox_th,
+#trashbox #fromList .checkbox_th,
+#trashbox #saveList .checkbox_th {
+width: 20px;
+height: 20px;
+padding-left: 5px;
+padding-top: 4px;
+}
+
+#trashbox #toList tr,
+#trashbox #fromList tr,
+#trashbox #saveList tr {
+height: 3em;
+}
+
+#trashbox #toList #resizing_allCheck,
+#trashbox #fromList #resizing_allCheck,
+#trashbox #saveList #resizing_allCheck {
+display: none !important;
+}
+
+#trashbox #toList #allCheck,
+#trashbox #fromList #allCheck,
+#trashbox #saveList #allCheck {
+display: block !important;
+}
+
+/* ================ 답장 css ======================== */
+
+#trashbox .ui.form #replayMsg_btns {
+	margin-top: 15px;
+}
+
+#trashbox .ui.form #replayMsg_submitBtn {
+	margin-right: 10px;
+	background-color: bisque;
+}
+
+#trashbox .ui.form #replayMsg_cancelBtn {
+  background-color: gainsboro;
+}
+
+#trashbox .ui.form .ui.textarea {
+  width: 100%;
+  resize: none;
+  }
+  
+#trashbox .ui.tab.segment.active#replayMsg {
+  width: 100%;
+  height: auto;
+  }
+
+
+
+
+
+
+@media only screen and (max-width: 460px) {
+	
+	#trashbox #toList tr th.content_th,
+	#trashbox #toList tr th.from_th,
+	#trashbox #toList tr th.date_th,
+	#trashbox #toList tr td#from_row,
+	#trashbox #toList tr td#date_row,
+	#trashbox #toList tr td#checkbox_row {
+	display: none !important;
+	}
+	
+	#trashbox #fromList tr th.content_th,
+  #trashbox #fromList tr th.from_th,
+  #trashbox #fromList tr th.date_th,
+  #trashbox #fromList tr td#from_row,
+  #trashbox #fromList tr td#date_row,
+  #trashbox #fromList tr td#checkbox_row {
+  display: none !important;
+  }
+  
+  #trashbox #saveList tr th.content_th,
+  #trashbox #saveList tr th.from_th,
+  #trashbox #saveList tr th.date_th,
+  #trashbox #saveList tr td#from_row,
+  #trashbox #saveList tr td#date_row,
+  #trashbox #saveList tr td#checkbox_row {
+  display: none !important;
+  }
+	
+	#trashbox #toList #content_row,
+  #trashbox #fromList #content_row,
+  #trashbox #saveList #content_row {
+  height: 5em;
+  }
+  
+  #trashbox #toList #resizing_allCheck,
+  #trashbox #fromList #resizing_allCheck,
+  #trashbox #saveList #resizing_allCheck {
+  display: block !important;
+  }
+
+  #trashbox #toList #allCheck,
+  #trashbox #fromList #allCheck,
+  #trashbox #saveList #allCheck {
+  display: none !important;
+  }
+	
+  #trashbox #toList #content_row .title,
+  #trashbox #fromList #content_row .title,
+  #trashbox #saveList #content_row .title {
+  margin-left: -10px;
+  margin-top: 10px;
+  }
+	
+	#trashbox #toList tr #mini_row,
+	#trashbox #fromList tr #mini_row,
+	#trashbox #saveList tr #mini_row {
+  display: block !important;
+  margin-bottom: 7px; 
+  margin-left: 5px;
+  }
+  
+  #trashbox #toList .ui.checkbox,
+  #trashbox #fromList .ui.checkbox,
+  #trashbox #saveList .ui.checkbox {
+  margin-bottom: -2px;
+  }
+  
+	#trashbox #toList table,
+	#trashbox #fromList table,
+	#trashbox #saveList table {
+  border-style: none;
+	}
+  
+  #trashbox #toList td,
+  #trashbox #fromList td,
+  #trashbox #saveList td {
+  border-style: groove;
+  }
+	
+  #trashbox .ui.tab.segment table {
+  width: 100%;
+  height: auto;
+  }
+  
+ 
+  #trashbox #toList .ui.accordion .content,
+  #trashbox #fromList .ui.accordion .content,
+  #trashbox #saveList .ui.accordion .content {
+  margin-left: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 150px;
+  }
+  
+  #trashbox #myMsg_btns {
+  text-align: center; 
+  } 
+  
+}
+
+@media only screen and (max-width: 350px) {
+  
+  #trashbox #banner .ui.small.header {
+  display: block !important;
+  margin: 0;
+  text-align: left;
+  font-size: initial;
+  }
+  
+  #trashbox .ui.fixed.menu {
+  overflow-x: auto;
+  }
+}

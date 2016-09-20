@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="net.spring.board.dao.LikeDao">
+    <resultMap type="Like" id="LikeMap">
+      <id column="like_no" property="likeNo"/>
+      <result column="user_no" property="userNo"/>
+      <result column="board_No" property="boardNo"/>
+      <result column="article_no" property="articleNo"/>
+      <result column="like_count" property="likeCnt"/>
+    </resultMap>
+    
+    
+    
+<!-- ==========================  insert(add)  ============================= -->
+    
+    <insert id="insertLikeFlag" parameterType="int">
+        INSERT INTO check_like
+        (list_no, user_no, article_no, board_no)
+        VALUES
+        (#{listNo}, #{userNo}, #{articleNo}, #{boardNo})
+    
+    </insert>
+    
+    
+    
+    
+    
+<!-- ==========================  select(get)  ============================= -->
+    
+    <select id="selectLikeToTalNum" parameterType="int" resultType="int">
+      SELECT  likecnt
+      FROM    article
+      WHERE   article_no = #{articleNo} AND board_no = #{boardNo}
+    </select>
+    
+    
+    <select id="selectLikeFlag" parameterType="int" resultType="int">
+      SELECT  count(*)
+      FROM    check_like
+      WHERE   article_no = #{articleNo} AND board_no = #{boardNo} AND user_no = #{userNo}
+    
+    </select>
+    
+    
+    
+    
+    
+<!-- ==========================  update(change)  ========================== -->
+    
+    <update id="updateArticleLikeCnt" parameterType="int">
+      UPDATE   article
+      SET      likecnt = likecnt+1
+      WHERE    article_no = #{articleNo} AND board_no = #{boardNo}
+    </update>
+    
+    
+    
+
+  
+    
+</mapper>

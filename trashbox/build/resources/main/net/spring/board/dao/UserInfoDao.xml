@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.spring.board.dao.UserInfoDao">
+      <resultMap  type  ="UserInfo"           id="UserInfoMap">
+         <id      column="user_no"            property="userNo"/>
+         <result  column="birthdate"          property="birthDate"/>
+         <result  column="signdate"           property="signDate"/>
+         <result  column="userclass"          property="userClass"/>
+         <result  column="attendance"         property="attendance"/>
+         <result  column="attendance_date"    property="attendanceDate"/>
+         <result  column="phone"              property="phone"/>
+         <result  column="address1"           property="address1"/>
+         <result  column="address2"           property="address2"/>
+         <result  column="address3"           property="address3"/>
+         <result  column="selfintroduction"   property="selfIntroduction"/>
+         <result  column="profilepath"        property="profilePath"/>
+         <result  column="temp"               property="temp"/>
+         <result  column="nicname"            property="nicName"/>
+         <result  column="prevnicname"        property="prevNicName"/>
+         <result  column="username"           property="userName"/>
+         <result  column="nic_changedate"     property="nicChangeDate"/>
+     </resultMap>
+
+
+    <select id="selectUserInfo" parameterType="int" resultMap="UserInfoMap">
+        SELECT  a.user_no, a.nicname, a.username,
+                a.prevnicname, a.nic_changedate,
+                         
+                b.birthdate, b.userclass, b.signdate, b.attendance,
+                b.attendance_date,
+                b.phone, b.address1, b.address2, b.address3,
+                b.selfintroduction, b.profilepath, b.temp
+                        
+                
+        FROM    user a inner join user_info b on a.user_no = b. user_no
+                
+        WHERE   a.user_no = #{userNo}
+    </select>
+    
+    
+    
+    <update id="updateAttendanceDate" parameterType="UserInfo">
+        UPDATE user_info
+        SET
+            <if test="attendance != null">
+               attendance = attendance+1,
+            </if>
+            
+            attendance_date = #{attendanceDate}
+            
+            
+        WHERE user_no = #{userNo}
+       
+    </update>
+    
+    
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="net.spring.board.dao.UserClassDao">
+    <resultMap type="UserClass" id="UserClassMap">
+      <id     column="class_no"    property="classNo"/>
+      <result column="user_no"     property="userNo"/>
+      <result column="user_level"  property="userLevel"/>
+      <result column="now_exp"     property="nowExp"/>
+      <result column="next_exp"    property="nextExp"/>
+    </resultMap>
+  
+  
+<!-- ==========================  select(get)  ============================= -->
+
+
+    <select id="selectUserClass" parameterType="int" resultMap="UserClassMap">
+            
+            SELECT class_no, user_no, user_level, now_exp, next_exp
+            FROM   user_class
+            WHERE user_no = #{userNo}
+    
+    </select>
+    
+    
+    <update id="updateExp" parameterType="hashmap">
+            
+            UPDATE user_class
+            SET
+            
+            now_exp = now_exp + #{nowExp}
+            
+            WHERE user_no = #{userNo}
+           
+    
+    </update>
+  
+  
+    <update id="updateLevelUp" parameterType="hashmap">
+            
+            UPDATE user_class
+            SET
+            
+            next_exp = #{nextExp},
+            user_level = #{userLevel},
+            now_exp = #{nowExp}
+            
+            WHERE user_no = #{userNo}
+           
+    
+    </update>
+    
+  
+</mapper>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="net.spring.board.dao.UserDao">
+   <resultMap type="User"                 id="UserMap">
+      <id     column="user_no"            property="userNo"/>
+      <result column="email"              property="email"/>
+      <result column="password"           property="password"/>
+      <result column="enabled"            property="enabled"/>
+      <result column="nicname"            property="nicName"/>
+      <result column="username"           property="userName"/>
+      <result column="signdate"           property="signDate"/>
+      <result column="unlocked"           property="unlocked"/>
+      <result column="prevnicname"        property="prevNicName"/>
+      <result column="birthdate"          property="birthDate"/>
+      <result column="nic_changedate"     property="nicChangeDate"/>
+      
+   </resultMap>
+
+
+
+<!-- ==========================  insert(add)  ============================= -->
+    
+    <insert id="insertSignUp" parameterType="User" useGeneratedKeys="true"
+            keyColumn="user_no" keyProperty="userNo">
+            INSERT INTO user
+            (email,password,enabled,nicname,username,unlocked) 
+            
+            VALUES
+            (#{email}, #{password}, #{enabled}, #{nicName}, #{userName}, #{unlocked})
+    
+    </insert>
+    
+    
+    
+    <insert id="insertSignUpDate" parameterType="String">
+            INSERT INTO user_info
+            (user_no, signdate, birthdate)
+             
+            VALUES
+            ((SELECT LAST_INSERT_ID()), now(), #{birthDate})
+    </insert>
+    
+    
+    
+    <insert id="insertWelComeMsg" parameterType="Msg" >
+            INSERT INTO to_msg
+            (to_user_no, to_user_email, to_user_nicname,
+             from_user_no, from_user_email, from_user_nicname,
+              msg_content, msg_flag, createdate)
+            
+            VALUES
+            ((SELECT LAST_INSERT_ID()), #{toUserEmail}, #{toUserNicName},
+             #{fromUserNo}, #{fromUserEmail}, #{fromUserNicName}, 
+             #{msgContent}, #{msgFlag}, now())
+            
+    </insert>
+    
+    
+    
+    <insert id="insertAuthority" parameterType="String" >
+            INSERT INTO user_auth
+            (email, authority, user_no)
+            
+            VALUES 
+            (#{email}, #{authority}, (SELECT LAST_INSERT_ID()))
+    </insert>        
+    
+    
+    <insert id="insertUserClassTable">
+            INSERT INTO user_class
+            (user_no)
+            
+            VALUES
+            ((SELECT LAST_INSERT_ID()))
+    </insert>
+    
+    
+<!-- ==========================  select(get)  ============================= -->
+    
+    <select id="selectEmailCheck" parameterType="String" resultType="int">
+            SELECT count(*)
+            FROM user
+            WHERE email = #{email}      
+    </select>
+    
+    
+    
+    <select id="selectUserNicNameCheck" parameterType="String" resultType="int">
+            SELECT count(*)
+            FROM user
+            WHERE nicname = #{nicName} 
+              
+    </select>
+    
+    
+    
+    <select id="selectArticleNicNameCheck" parameterType="String" resultType="int">
+            SELECT count(*)
+            FROM article
+            WHERE nicname = #{nicName} 
+              
+    </select>
+    
+    
+    
+    <select id="selectFindEmail" parameterType="User" resultMap="UserMap">
+          SELECT  a.email, a.username,
+                  b.birthdate
+          FROM    user a inner join user_info b on a.user_no = b.user_no
+          WHERE   a.username = #{userName} AND b.birthdate = #{birthDate}
+             
+    </select>
+    
+    
+    
+    <select id="selectFindPassword" parameterType="User" resultMap="UserMap">
+          <choose>
+             <when test="birthDate != null">
+                SELECT  a.email, a.username,
+                        b.birthdate
+                FROM    user a inner join user_info b on a.user_no = b.user_no
+                WHERE   a.username = #{userName} AND b.birthdate = #{birthDate}
+             </when>
+              
+             <when test="email != null">
+                SELECT  email, username, password, nicname
+                FROM    user
+                WHERE   username = #{userName} AND email = #{email}
+             </when>
+              
+          </choose>      
+    </select>
+    
+    
+    
+    <select id="selectUserNo" parameterType="String" resultType="int">
+            SELECT user_no 
+            FROM user
+            WHERE email = #{email}
+    </select>
+    
+    
+    
+    <select id="selectUser" parameterType="int" resultMap="UserMap">
+            SELECT a.user_no, a.email, a.password, a.enabled, a.nicname, a.username, a.unlocked,
+                   b.signdate
+            
+            FROM   user a inner join user_info b on a.user_no = b.user_no
+            WHERE  a.user_no = #{userNo}
+    </select>
+    
+
+    
+<!--     <select id="selectUserInfo" parameterType="int" resultType="UserInfo"> -->
+<!--             SELECT a.user_no, a.email, a.password, a.enabled, a.nicname, a.username,  -->
+<!--                    b.signdate, b.birthdate, b.userclass,  -->
+<!--                    b.attendance, b.phone, b.address1, b.address2, b.address3, -->
+<!--                    b.selfintroduction, b.profilepath, b.temp -->
+            
+<!--             FROM   user a inner join user_info b on a.user_no = b.user_no -->
+<!--             WHERE  a.user_no = #{userNo} -->
+<!--     </select> -->
+    
+    
+    
+    
+    
+    
+<!-- ==========================  update(change)  ========================== -->
+
+    <update id="updateBasicInfo" parameterType="UserInfo">
+
+            UPDATE user_info
+             
+            <set>
+<!--             <if test="birthDate != ''"> -->
+<!--             birthdate = #{birthDate}, -->
+<!--             </if> -->
+            
+            <if test="address1 != ''">
+             address1 = #{address1},
+            </if>
+            
+            <if test="address2 != ''">
+             address2 = #{address2},
+            </if>
+            
+            <if test="address3 != ''">
+             address3 = #{address3},
+            </if>
+            
+            <if test="phone != ''">
+             phone = #{phone},
+            </if>
+            
+            <if test="selfIntroduction != ''">
+             selfintroduction = #{selfIntroduction},
+            </if>
+            
+            <if test="profilePath != ''">
+             profilepath = #{profilePath},
+            </if>
+            
+            <if test="temp == null or temp != null">
+             temp = #{temp}
+            </if>
+            
+            </set>
+            
+            WHERE user_no = #{userNo}
+    </update>
+
+
+
+    <update id="updateUniqueInfo" parameterType="String" >  
+            UPDATE user, (SELECT nicname FROM user WHERE user_no = 1) as b
+            
+            <set>
+              <if test="newPassword != ''">
+                user.password = #{newPassword},
+              </if>
+            
+              <if test="newNicName != ''">
+                prevnicname = b.nicname,
+                user.nicname = #{newNicName},
+                user.nic_changedate = #{nicChangeDate}
+              </if>
+            
+            </set>
+            
+            WHERE email = #{changeEditEmail}
+    </update>
+    
+    
+    
+    <update id="updateFindPassword" parameterType="User">
+            UPDATE  user
+            SET     password = #{password}
+            WHERE   username = #{userName} AND email = #{email}
+        
+    </update>
+    
+    
+<!-- ==========================  delete(remove)  ========================== -->
+
+
+    <delete id="deleteUser" parameterType="int">
+            UPDATE user
+            SET    unlocked = 0
+            WHERE user_no = #{userNo};
+    </delete>   
+    
+    
+
+
+</mapper>

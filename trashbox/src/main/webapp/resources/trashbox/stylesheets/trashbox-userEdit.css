@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+/* ==================== userEdit page ===================== */
+
+
+#trashbox .ui.text.container #normal_header {
+  color: #e6e6e6;
+  margin-bottom: 0;
+  text-shadow: 0 0 8px #88c4ff;
+  -moz-text-shadow: 0 0 8px #88c4ff;
+  -webkit-text-shadow: 0 0 8px #88c4ff;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 10px;
+ 
+}
+
+
+#banner {
+  background-image: url(../images/black_Img.jpg);
+  background-size: cover;
+}
+
+#banner:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.5);
+}
+
+
+#banner .ui.text.container {
+  position: relative;
+  z-index: 1;
+  color: black;
+}
+
+#banner .ui.celled.table {
+	margin-bottom: 30px;
+}
+
+#banner #editFrm {
+text-align: left;
+}
+
+#banner #userBye {
+position: absolute;
+right: 0;
+}
+
+@media only screen and (max-width: 360px) {
+  #banner {
+  background-image: url(../images/black_Img2.jpg);
+  background-size: cover;
+  }
+  
+  #trashbox .ui.text.container #normal_header {
+  text-align: left;
+  font-size: larger;
+  }
+  	
+}
+
+
+

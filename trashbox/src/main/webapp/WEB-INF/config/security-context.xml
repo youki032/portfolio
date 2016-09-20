@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:sec="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans" 
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+                      http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/context
+                      http://www.springframework.org/schema/context/spring-context.xsd
+                      http://www.springframework.org/schema/security
+                      http://www.springframework.org/schema/security/spring-security.xsd
+                      ">
+
+
+  <sec:http pattern="/**/*.css" security="none" />
+  <sec:http pattern="/**/*.js" security="none" />
+  <sec:http pattern="/resources/*" security="none" />
+  
+  
+  <sec:http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" create-session="never">
+    <sec:access-denied-handler ref="accessDenied"/>
+    
+      <sec:headers>
+           <sec:frame-options policy="SAMEORIGIN"/>
+           <sec:cache-control disabled="false" />
+      </sec:headers>
+    
+    
+    
+<!--     <sec:port-mappings> -->
+<!--       <sec:port-mapping http="9999" https="443"/> -->
+<!--     </sec:port-mappings> -->
+<!--     <sec:intercept-url pattern="/**" requires-channel="https"/> -->
+    
+    
+    
+    <sec:intercept-url pattern="/home/login" access="permitAll" />
+    <sec:intercept-url pattern="/home/signUp" access="permitAll" />
+    <sec:intercept-url pattern="/home/userFind" access="isAnonymous()" />
+    <sec:intercept-url pattern="/home/userFindResult" access="isAnonymous()" />
+
+    <sec:intercept-url pattern="/home/main" access="permitAll" />
+    <sec:intercept-url pattern="/home/loginFail" access="isAnonymous()" />
+    <sec:intercept-url pattern="/home/welcome" access="isAnonymous()" />
+    <sec:intercept-url pattern="/check/**" access="permitAll" />
+    
+    
+    <sec:intercept-url pattern="/userinfo/myPage" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/userinfo/userBye" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/userinfo/userEdit" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/userinfo/checkPopUp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MASTER')" />
+    
+    
+    <!-- board 1번은 공지사항 게시판으로 관리자 권한만 쓰기가 가능 -->
+<!--     <sec:intercept-url pattern="/article/list?boardNo=1" access="hasAnyRole('ROLE_MASTER')" /> -->
+    <sec:intercept-url pattern="/article/writeForm/1/**" access="hasAnyRole('ROLE_MASTER')" />
+
+
+    <sec:intercept-url pattern="/article/list" access="permitAll" />
+    <sec:intercept-url pattern="/article/detail" access="permitAll" />
+    <sec:intercept-url pattern="/article/change" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/myMsg" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/sendMsg" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/userHistory" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/replayMsg" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/writeForm" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/chanege" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/fileUpload" access="permitAll" />
+    
+    
+    <sec:intercept-url pattern="/files/*" access="permitAll" />
+    <sec:intercept-url pattern="/zipcode/list.do" access="hasAnyRole('ROLE_USER','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/article/file_upload" access="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MASTER')" /> 
+    <sec:intercept-url pattern="/logout" access="hasAnyRole('ROLE_USER','ROLE_MASTER')" />
+    <sec:intercept-url pattern="/error/**" access="permitAll" />
+    <sec:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN','ROLE_MASTER')" />
+    
+<!--     <sec:custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" /> -->
+    <sec:custom-filter position="FORM_LOGIN_FILTER" ref="myAuthenticationFilter" />
+    <sec:custom-filter position="REMEMBER_ME_FILTER" ref="rememberMeFilter" />    
+    
+    
+    <!-- 로그아웃 url설정 -->
+    <sec:logout logout-url="/logout"  invalidate-session="true" success-handler-ref="customLogoutSuccessHandler" />
+     
+     
+     <!-- 사용자가 동시에 한번만 로그인 하도록 제한. web.xml에  org.springframework.security.web.session.HttpSessionEventPublisher 추가.
+                 한 사용자가 두번로그인하는것을 방지. 두번째 로그인으로 첫번째로그인은 무효화. -->
+    <sec:session-management session-fixation-protection="migrateSession">
+        <sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/home/login" />
+    </sec:session-management>
+         <sec:session-management session-authentication-strategy-ref="sas"/>
+
+  </sec:http>
+    
+ 
+
+  <!-- 권한부여 관리 -->
+  <sec:authentication-manager alias="authenticationManager">
+      <sec:authentication-provider ref="myAuthenticationProvider" />
+      <sec:authentication-provider ref="rememberMeAuthenticationProvider" />
+  </sec:authentication-manager>
+      
+      
+      
+  <!-- password 암호화 -->
+  <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+   
+   
+   
+   
+   
+  <!-- TokenBasedRememberMeServices는 RememberMeAuthenticationToken을 생성하며,
+       RememberMeAuthenticationToken은 RememberMeAuthenticationProvider에 의해 처리된다. 
+            이러한 인증 제공자와 TokenBasedRememberMeServices간에는 key가 공유된다. 
+            더불어 TokenBasedRememberMeServices는 UserDetailsService를 필요로 하는데, 
+            이러한 UserDetailsService에서 서명을 비교할 목적으로 사용자명과 비밀번호를 검색할 수 있으며, 
+       RememberMeAuthenticationToken을 생성하여 올바른 GrantedAuthority[]를 담는다. 
+            사용자 요청에 의해 쿠키를 무효화하는 애플리케이션(일반적으로 JSP를 통해)에 의해 일종의 
+            로그아웃 명령이 제공되어야 한다. -->  
+  <!--Remember Me Service -->
+  <beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+      <beans:constructor-arg  name="key"             value="springRocks" />
+      <beans:constructor-arg  name="userDetailsService"    ref=  "myUserDetailsService" />
+  </beans:bean>   
+      
+    
+  <beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <beans:constructor-arg name="key" value="springRocks" /> 
+  </beans:bean>
+
+
+  <beans:bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+        <beans:constructor-arg name="authenticationManager" ref="authenticationManager" />
+        <beans:constructor-arg name="rememberMeServices" ref="rememberMeServices" />
+  </beans:bean>
+  
+  
+  
+  <beans:bean id="myAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+      <beans:property name="userDetailsService"       ref="myUserDetailsService" />
+      <beans:property name="passwordEncoder"          ref="bcryptEncoder" />
+      <beans:property name="preAuthenticationChecks"  ref="myUserDetailsChecker" />
+      <beans:property name="postAuthenticationChecks" >
+          <beans:bean class="org.springframework.security.authentication.AccountStatusUserDetailsChecker"></beans:bean>
+      </beans:property>
+  </beans:bean>
+  
+    
+    
+  <!-- 로그인이 시작되는 페이지 관리 -->
+  <beans:bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+      <beans:constructor-arg name="loginFormUrl" value="/home/login" />
+  </beans:bean>
+  
+  
+  
+  <!-- custom handler관리 -->
+  <beans:bean id="myAuthenticationFilter" class="net.spring.board.security.MyUsernamePasswordAuthenticationFilter">
+      <beans:property name="rememberMeServices" ref="rememberMeServices" />  
+      <beans:property name="authenticationManager" ref="authenticationManager" />
+      <beans:property name="authenticationFailureHandler" ref="myLoginFailureHandler" />
+      <beans:property name="authenticationSuccessHandler" ref="myLoginSuccessHandler" />
+      <beans:property name="filterProcessesUrl" value="/home/login" />
+      <beans:property name="usernameParameter" value="email" />
+      <beans:property name="passwordParameter" value="password" />
+  </beans:bean>
+  
+  
+  
+  
+  <!-- authentication-Success-handler bean 설정 -->
+  <beans:bean id="myLoginSuccessHandler" class="net.spring.board.util.CustomAuthenticationSuccessHandler">
+      <beans:property name="targetUrlParameter" value="loginRedirect"/>
+      <beans:property name="useReferer" value="false"/>
+      <beans:property name="defaultUrl" value="/main"/>
+  </beans:bean>
+  
+
+  
+  <!-- authentication-failure-handler bean 설정 -->
+  <beans:bean id="myLoginFailureHandler" class="net.spring.board.util.CustomAuthenticationFailureHandler">
+      <beans:property name="loginIdName" value="loginId"/>
+      <beans:property name="loginPasswordName" value="loginPass"/>
+      <beans:property name="loginRedirectName" value="loginRedirect"/>
+      <beans:property name="exceptionMesegeName" value="securityExceptionMsg"/>
+      <beans:property name="defaultFailureUrl" value="/home/login"/>
+  </beans:bean>
+  
+  
+  
+  
+  <!-- LogOutSuccessHandler -->
+  <beans:bean id="customLogoutSuccessHandler" class="net.spring.board.util.CustomLogoutSuccessHandler">
+      <beans:property name="redirectUrl" value="/main"/>
+  </beans:bean>
+  
+  
+  
+  
+  <!-- security MydetailsService관련 bean 추가 -->
+  <beans:bean id="myUserDetailsService" class="net.spring.board.security.MyUserDetailsService" />
+  <beans:bean id="myKeyBasedPersistenceTokenService" class="net.spring.board.security.MyKeyBasedPersistenceTokenService" />
+  <beans:bean id="myUserDetailsChecker" class="net.spring.board.security.MyUserDetailsChecker"></beans:bean>
+
+
+
+  <!-- 권한없는 요청 처리하는 handler -->
+  <beans:bean id="accessDenied" class="net.spring.board.util.CustomAccessDeniedHandler">
+      <beans:property name="errorPage" value="/error/denied" />
+  </beans:bean>
+
+  
+</beans:beans>
